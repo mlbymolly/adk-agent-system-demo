@@ -1,0 +1,12 @@
+[project]
+name = "adk-agent-system-demo"
+version = "2.0.0"
+description = "Multi-agent system for task management, weather, and date queries using Google ADK"
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+]
