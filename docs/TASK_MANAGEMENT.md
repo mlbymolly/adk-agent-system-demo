@@ -73,7 +73,7 @@ curl -X POST http://localhost:8000/tasks \
   "title": "string (required)",
   "description": "string (optional)",
   "due_date": "YYYY-MM-DD (optional)",
-  "priority": "low|medium|high (optional, default: medium)",
+  "priority": "low|medium|high (optional, default: medium",
   "location": "string (optional)",
   "user_id": "string (optional, default: default)"
 }

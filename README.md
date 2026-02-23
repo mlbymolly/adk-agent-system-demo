@@ -1,16 +1,5 @@
 # Multi-Agent System with Google ADK
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
-[![Google ADK](https://img.shields.io/badge/Google_ADK-Latest-4285F4.svg)](https://google.github.io/adk-docs/)
-[![License](https://img.shields.io/badge/license-Demo-green.svg)](LICENSE)
-[![Code Style](https://img.shields.io/badge/code%20style-clean-black.svg)](https://github.com/psf/black)
-[![Architecture](https://img.shields.io/badge/architecture-modular-orange.svg)](docs/ARCHITECTURE.md)
-[![Documentation](https://img.shields.io/badge/docs-comprehensive-brightgreen.svg)](docs/)
-[![AI Agent](https://img.shields.io/badge/AI-Multi--Agent-purple.svg)](src/agents/)
-[![API](https://img.shields.io/badge/API-RESTful-blue.svg)](http://localhost:8000/docs)
-[![Database](https://img.shields.io/badge/database-SQLite-003B57.svg)](https://www.sqlite.org/)
-
 > **A comprehensive reference implementation for building production-ready multi-agent systems using Google's Agent Development Kit (ADK) for Python**
 
 This project demonstrates best practices for architecting, implementing, and deploying a sophisticated multi-agent system with the following capabilities:
@@ -554,22 +543,7 @@ This architecture is suitable for:
 - **Smart Home Systems** - Multi-device coordination
 - **Educational Tools** - Interactive learning systems
 
----
 
-## Future Enhancements
-
-Potential additions:
-
-- [ ] Real weather API integration (OpenWeatherMap, WeatherAPI)
-- [ ] User authentication and authorization
-- [ ] WebSocket support for real-time updates
-- [ ] Email notifications for task reminders
-- [ ] Calendar integration (Google Calendar, Outlook)
-- [ ] File attachment support for tasks
-- [ ] Team collaboration features
-- [ ] Mobile app integration
-- [ ] Advanced analytics dashboards
-- [ ] Export capabilities (CSV, PDF)
 
 ---
 
@@ -591,13 +565,7 @@ Built with:
 - SQLite
 - Python 3.x
 
-### Technology Stack
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
-![Google](https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![Pydantic](https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=pydantic&logoColor=white)
 
 ---
 
