@@ -203,12 +203,29 @@ curl -X POST http://localhost:8000/sessions/$SESSION_ID/chat \
 - Restart the application (tables will be recreated)
 - Re-run seed script if needed
 
+## MCP Agent Router
+
+The project includes a built-in MCP server for analyzing query routing. It classifies user messages and recommends which sub-agent (date, weather, or task) should handle them.
+
+Run it standalone to test routing:
+
+```bash
+uv run python -c "
+from mcp_server.router import compare_strategies
+import json
+print(json.dumps(compare_strategies('What is the weather in Tokyo?'), indent=2))
+"
+```
+
+The server is also registered in `.cursor/mcp.json` for IDE integration. See `ARCHITECTURE.md` for details on routing strategies.
+
 ## Next Steps
 
 - Read `README.md` for full overview
 - Check `TASK_API_DOCS.md` for complete API reference
 - See `API_README.md` for session management details
 - Explore `http://localhost:8000/docs` for interactive API docs
+- See `ARCHITECTURE.md` for MCP agent router details
 
 ## File Structure
 

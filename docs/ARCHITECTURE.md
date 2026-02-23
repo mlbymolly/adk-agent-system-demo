@@ -51,12 +51,14 @@ graph TB
 The **Coordinator Agent** acts as the entry point and intelligently routes queries to specialized agents.
 
 **Benefits:**
+
 - Single interface for users
 - Easy to add new specialized agents
 - Agents can be developed independently
 - Clear separation of responsibilities
 
 **Implementation:**
+
 ```python
 coordinator_agent = LlmAgent(
     name="coordinator",
@@ -71,12 +73,14 @@ coordinator_agent = LlmAgent(
 Agents gain capabilities through **tools** - Python functions that they can call.
 
 **Benefits:**
+
 - Reusable business logic
 - Testable in isolation
 - Type-safe with Python type hints
 - Easy to add new capabilities
 
 **Example:**
+
 ```python
 def create_task(title: str, description: str = "", ...) -> str:
     """Create a new task."""
@@ -93,12 +97,14 @@ task_agent = LlmAgent(
 Database operations are encapsulated in dedicated classes (repositories).
 
 **Benefits:**
+
 - Abstract database implementation
 - Easier to test with mocks
 - Consistent interface for data access
 - Can swap SQLite for PostgreSQL later
 
 **Example:**
+
 ```python
 class TaskDatabase:
     def create_task(self, ...):
@@ -115,12 +121,14 @@ class TaskDatabase:
 Conversations are stateful with persistent session storage.
 
 **Benefits:**
+
 - Context retention across messages
 - Multi-user support
 - Conversation history
 - Audit trail
 
 **Flow:**
+
 1. Create session → Get session_id
 2. Send messages with session_id
 3. Agent has access to conversation history
@@ -131,22 +139,71 @@ Conversations are stateful with persistent session storage.
 Standard HTTP methods mapped to operations.
 
 **Benefits:**
+
 - Industry standard
 - Easy to integrate
 - Self-documenting with OpenAPI
 - Works with any HTTP client
 
 **Mapping:**
+
 - POST → Create resource
 - GET → Read resource
 - PUT → Update resource
 - DELETE → Delete resource
+
+### 6. MCP Agent Router
+
+A [Model Context Protocol](https://modelcontextprotocol.io/) server that provides query classification and sub-agent routing as IDE-accessible tools.
+
+**Benefits:**
+
+- Deterministic routing without LLM calls
+- Multiple strategies to compare (keyword, semantic, hybrid)
+- Batch classification for testing routing accuracy
+- Pluggable into any MCP-compatible IDE
+
+**Architecture:**
+
+```mermaid
+graph LR
+    IDE[IDE / MCP Client] -->|stdio| MCP[MCP Server<br/>agent-router]
+    MCP --> KW[Keyword Strategy]
+    MCP --> SEM[Semantic Strategy]
+    MCP --> HYB[Hybrid Strategy]
+    HYB --> Result[Recommended Agent]
+
+    style MCP fill:#e1f5ff
+    style KW fill:#fff3e0
+    style SEM fill:#f3e5f5
+    style HYB fill:#e8f5e9
+    style Result fill:#4CAF50,color:#fff
+```
+
+**Tools exposed:**
+
+- `analyze_query` - Classify a single query
+- `compare_strategies` - Side-by-side strategy comparison
+- `batch_route` - Classify multiple queries
+- `list_agents` - View agent registry
+
+**Configuration** (`.cursor/mcp.json`):
+
+```json
+{
+  "agent-router": {
+    "command": "uv",
+    "args": ["run", "--directory", "/path/to/project", "python", "-m", "mcp_server.router"]
+  }
+}
+```
 
 ## Component Responsibilities
 
 ### API Layer (`api.py`)
 
 **Responsibilities:**
+
 - HTTP request handling
 - Input validation (Pydantic models)
 - Authentication (future)
@@ -155,6 +212,7 @@ Standard HTTP methods mapped to operations.
 - CORS configuration
 
 **Does NOT:**
+
 - Business logic
 - Direct database access
 - LLM interaction
@@ -162,12 +220,14 @@ Standard HTTP methods mapped to operations.
 ### Agent Layer (`src/agents/`)
 
 **Responsibilities:**
+
 - Query understanding
 - Task decomposition
 - Sub-agent coordination
 - Response generation
 
 **Does NOT:**
+
 - HTTP concerns
 - Database operations (uses tools)
 - Direct data manipulation
@@ -175,12 +235,14 @@ Standard HTTP methods mapped to operations.
 ### Tools Layer (`src/tools/`)
 
 **Responsibilities:**
+
 - Business logic implementation
 - Data transformation
 - External API calls
 - Database operations (via repositories)
 
 **Does NOT:**
+
 - HTTP concerns
 - Agent decision-making
 - Session management
@@ -188,12 +250,14 @@ Standard HTTP methods mapped to operations.
 ### Database Layer (`src/database/`)
 
 **Responsibilities:**
+
 - CRUD operations
 - Query optimization
 - Schema management
 - Data integrity
 
 **Does NOT:**
+
 - Business logic
 - HTTP concerns
 - AI/LLM interaction
@@ -395,6 +459,7 @@ def test_create_task():
 ```
 
 **Coverage:**
+
 - Database methods
 - Tool functions
 - Utility functions
@@ -412,6 +477,7 @@ def test_task_agent_creates_task():
 ```
 
 **Coverage:**
+
 - Agent + Tools
 - Tools + Database
 - Agent routing
@@ -429,6 +495,7 @@ def test_chat_creates_task():
 ```
 
 **Coverage:**
+
 - Complete API flows
 - Session management
 - Multi-agent coordination

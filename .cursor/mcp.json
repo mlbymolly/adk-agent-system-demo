@@ -8,6 +8,17 @@
       "env": {
         "AGENT_PIPELINE_WORKSPACE": "/Users/Molly.Depew/adk-agent-system-demo"
       }
+    },
+    "agent-router": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/Users/Molly.Depew/adk-agent-system-demo",
+        "python",
+        "-m",
+        "mcp_server.router"
+      ]
     }
   }
 }

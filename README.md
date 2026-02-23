@@ -23,15 +23,6 @@ This project demonstrates best practices for architecting, implementing, and dep
 - **Tool Integration** - 15+ custom tools for agent capabilities
 - **Production Ready** - Clean architecture, error handling, documentation
 
-## Project Stats
-
-![Lines of Code](https://img.shields.io/badge/lines_of_code-~4000-blue)
-![API Endpoints](https://img.shields.io/badge/endpoints-25-green)
-![Agents](https://img.shields.io/badge/agents-4-purple)
-![Tools](https://img.shields.io/badge/tools-15-orange)
-![Code Reduction](https://img.shields.io/badge/api.py-97_lines_(77%25_smaller)-brightgreen)
-![Documentation](https://img.shields.io/badge/docs-5_guides-yellow)
-
 ---
 
 ## Table of Contents
@@ -44,7 +35,7 @@ This project demonstrates best practices for architecting, implementing, and dep
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
 - [Development Guide](#development-guide)
-- [Best Practices](#best-practices)
+- [Best Practices](#best-practices-demonstrated)
 - [License](#license)
 
 ---
@@ -139,7 +130,7 @@ graph TD
 
 ## Project Structure
 
-```
+```text
 adk-demo/
 ├── README.md                           # This file - main documentation
 ├── api.py                              # Main entry point (97 lines, clean!)
@@ -170,6 +161,10 @@ adk-demo/
 │       ├── __init__.py
 │       ├── sessions.py                 # Session & chat endpoints
 │       └── tasks.py                    # Task CRUD & analytics endpoints
+│
+├── mcp_server/                         # MCP Server (agent routing)
+│   ├── __init__.py
+│   └── router.py                       # Agent router with routing strategies
 │
 ├── scripts/                            # Utility scripts
 │   └── seed_tasks.py                   # Database seeding
@@ -224,10 +219,34 @@ adk-demo/
 ### 4. **Natural Language Interface**
 
 Users can interact naturally:
+
 - *"Create a high priority task to prepare presentation for Friday"*
 - *"Show me overdue tasks in Paris and tell me the weather there"*
 - *"What tasks are due this week?"*
 - *"Give me statistics about my tasks"*
+
+### 5. **MCP Agent Router**
+
+A built-in [Model Context Protocol](https://modelcontextprotocol.io/) server that analyzes queries and picks the optimal sub-agent routing strategy.
+
+- **`analyze_query`** - Classify a query and recommend the best sub-agent
+- **`compare_strategies`** - Run keyword, semantic, and hybrid strategies side-by-side
+- **`batch_route`** - Classify multiple queries at once
+- **`list_agents`** - View registered agents and their capabilities
+
+Three routing strategies are available:
+
+| Strategy   | Method                                      | Speed          |
+|------------|---------------------------------------------|----------------|
+| `keyword`  | Rule-based trigger word matching             | Fastest        |
+| `semantic` | Cosine similarity on term-frequency vectors  | Fast           |
+| `hybrid`   | Weighted blend (60% keyword + 40% semantic)  | Fast (default) |
+
+To use the MCP server in your IDE, it is registered in `.cursor/mcp.json` and runs via:
+
+```bash
+uv run python -m mcp_server.router
+```
 
 ---
 
@@ -329,6 +348,7 @@ curl http://localhost:8000/tasks/query/statistics
 ### Core Endpoints
 
 #### Session Management
+
 - `POST /sessions` - Create new session
 - `GET /sessions` - List all sessions
 - `GET /sessions/{id}` - Get session details
@@ -337,6 +357,7 @@ curl http://localhost:8000/tasks/query/statistics
 - `DELETE /sessions/{id}` - Delete session
 
 #### Task Management
+
 - `POST /tasks` - Create task
 - `GET /tasks` - List tasks (with filters)
 - `GET /tasks/{id}` - Get task
@@ -345,6 +366,7 @@ curl http://localhost:8000/tasks/query/statistics
 - `POST /tasks/{id}/complete` - Mark complete
 
 #### Analytics
+
 - `GET /tasks/query/overdue` - Overdue tasks
 - `GET /tasks/query/due-soon` - Upcoming tasks
 - `GET /tasks/query/statistics` - Analytics
@@ -430,28 +452,32 @@ app.include_router(custom_router)
 This project demonstrates production-ready patterns:
 
 ### Architecture & Design
+
 1. **Clean Architecture** - Separation of concerns (agents, tools, database, routers, models)
 2. **Modular Design** - Reusable, independently testable components
 3. **Router-Based API** - FastAPI best practices with organized endpoints
 4. **Repository Pattern** - Database abstraction layer
 
 ### Code Quality
-5. **Type Safety** - Pydantic models for validation
-6. **Error Handling** - Proper HTTP status codes and exceptions
-7. **Code Organization** - 97-line main file (was 430 lines!)
-8. **DRY Principle** - No repeated code, shared models
+
+1. **Type Safety** - Pydantic models for validation
+2. **Error Handling** - Proper HTTP status codes and exceptions
+3. **Code Organization** - 97-line main file (was 430 lines!)
+4. **DRY Principle** - No repeated code, shared models
 
 ### Documentation & Testing
-9. **Comprehensive Docs** - API, architecture, and quickstart guides
-10. **Interactive Docs** - Auto-generated Swagger UI
-11. **Mermaid Diagrams** - Visual architecture documentation
-12. **Testing Support** - Seed data and clear test structure
+
+1. **Comprehensive Docs** - API, architecture, and quickstart guides
+2. **Interactive Docs** - Auto-generated Swagger UI
+3. **Mermaid Diagrams** - Visual architecture documentation
+4. **Testing Support** - Seed data and clear test structure
 
 ### Operations
-13. **Environment Config** - Secure credential management
-14. **Logging** - Configurable logging levels
-15. **CORS Support** - API accessibility
-16. **Health Checks** - Monitoring endpoints
+
+1. **Environment Config** - Secure credential management
+2. **Logging** - Configurable logging levels
+3. **CORS Support** - API accessibility
+4. **Health Checks** - Monitoring endpoints
 
 ---
 
@@ -487,6 +513,7 @@ python scripts/seed_tasks.py
 ```
 
 Creates 15 sample tasks with varied:
+
 - Statuses (pending, in_progress, completed)
 - Priorities (low, medium, high)
 - Due dates (past, present, future)
@@ -557,6 +584,7 @@ Potential additions:
 ## Acknowledgments
 
 Built with:
+
 - Google Agent Development Kit (ADK)
 - Google Gemini AI
 - FastAPI

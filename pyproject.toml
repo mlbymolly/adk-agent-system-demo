@@ -9,6 +9,7 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     "pydantic",
+    "mcp[cli]",
 ]
 
 [dependency-groups]
