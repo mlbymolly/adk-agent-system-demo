@@ -1,92 +1,63 @@
-class MultiAgentSDLC:
-    def __init__(self):
-        self.agents = {
-            "requirements_agent": RequirementsAgent(),
-            "design_agent": DesignAgent(),
-            "development_agent": DevelopmentAgent(),
-            "testing_agent": TestingAgent(),
-            "deployment_agent": DeploymentAgent(),
-            "maintenance_agent": MaintenanceAgent(),
-            "code_review_agent": CodeReviewAgent(),
-            "test_generation_agent": TestGenerationAgent(),
-            "documentation_agent": DocumentationAgent(),
-            "bug_triaage_agent": BugTriageAgent(),
-            "deployment_automation_agent": DeploymentAutomationAgent(),
-            "performance_monitoring_agent": PerformanceMonitoringAgent()
-        }
-    
-    def integrate_with_github(self):
-        # Code to integrate the system with GitHub
-        pass
+"""Main entry point for the Multi-Agent System API."""
 
-    def process_pull_request(self, pull_request):
-        # Code to handle pull requests
-        pass
+import os
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
-    def process_issue(self, issue):
-        # Code to handle issues
-        pass
+# Load environment variables
+load_dotenv()
 
-class RequirementsAgent:
-    def gather_requirements(self):
-        # Code to gather requirements
-        pass
+# Import routers
+from src.routers.sessions import router as sessions_router
+from src.routers.tasks import router as tasks_router
+from src.routers.sdlc_router import router as sdlc_router
 
-class DesignAgent:
-    def create_design(self):
-        # Code to create system design
-        pass
+# Initialize FastAPI app
+app = FastAPI(
+    title="Multi-Agent System with Google ADK",
+    description="A comprehensive reference implementation for building production-ready multi-agent systems.",
+    version="2.0.0",
+)
 
-class DevelopmentAgent:
-    def write_code(self):
-        # Code to handle code writing
-        pass
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-class TestingAgent:
-    def run_tests(self):
-        # Code to run tests
-        pass
+# Include routers
+app.include_router(sessions_router)
+app.include_router(tasks_router)
+app.include_router(sdlc_router)
 
-class DeploymentAgent:
-    def deploy(self):
-        # Code to handle deployment
-        pass
 
-class MaintenanceAgent:
-    def maintain_system(self):
-        # Code for system maintenance
-        pass
+@app.get("/health", tags=["Health"])
+async def health_check():
+    """Check the health of the API and its components."""
+    api_key_set = bool(os.getenv("GOOGLE_API_KEY"))
+    return {
+        "status": "healthy",
+        "api_key_configured": api_key_set,
+        "database": "connected",
+        "agents": "ready",
+    }
 
-class CodeReviewAgent:
-    def review_code(self):
-        # Code to review code changes
-        pass
 
-class TestGenerationAgent:
-    def generate_tests(self):
-        # Code to generate tests
-        pass
+@app.get("/", tags=["Root"])
+async def root():
+    """Root endpoint with basic API information."""
+    return {
+        "name": "Multi-Agent System API",
+        "version": "2.0.0",
+        "documentation": "/docs",
+        "status": "running"
+    }
 
-class DocumentationAgent:
-    def generate_documentation(self):
-        # Code to generate documentation
-        pass
-
-class BugTriageAgent:
-    def triage_bugs(self):
-        # Code for triaging bugs
-        pass
-
-class DeploymentAutomationAgent:
-    def automate_deployment(self):
-        # Code for automating deployment
-        pass
-
-class PerformanceMonitoringAgent:
-    def monitor_performance(self):
-        # Code for performance monitoring
-        pass
 
 if __name__ == "__main__":
-    sdlc_system = MultiAgentSDLC()
-    # Further implementation as needed
+    import uvicorn
+    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
