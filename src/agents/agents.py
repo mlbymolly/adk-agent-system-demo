@@ -13,7 +13,7 @@ from src.tools.task_tools import (
 # Date Agent - specialized in answering date-related questions
 date_agent = LlmAgent(
     name="date_agent",
-    model="gemini-2.5-flash",
+    model="gemini-1.5-flash",
     description="An agent specialized in providing current date and time information",
     instruction="""You are a helpful date and time assistant.
     You can provide the current date, time, day of week, and other date-related information.
@@ -25,7 +25,7 @@ date_agent = LlmAgent(
 # Weather Agent - specialized in answering weather-related questions
 weather_agent = LlmAgent(
     name="weather_agent",
-    model="gemini-2.5-flash",
+    model="gemini-1.5-flash",
     description="An agent specialized in providing weather information",
     instruction="""You are a helpful weather assistant.
     You can provide current weather conditions for any location.
@@ -37,7 +37,7 @@ weather_agent = LlmAgent(
 # Task Management Agent - specialized in managing tasks and todos
 task_agent = LlmAgent(
     name="task_agent",
-    model="gemini-2.5-flash",
+    model="gemini-1.5-flash",
     description="An agent specialized in task management, CRUD operations, and task analytics",
     instruction="""You are a helpful task management assistant.
 
@@ -72,7 +72,7 @@ task_agent = LlmAgent(
 # Coordinator Agent - routes queries to the appropriate specialized agent
 coordinator_agent = LlmAgent(
     name="coordinator",
-    model="gemini-2.5-flash",
+    model="gemini-1.5-flash",
     description="Main coordinator that routes queries to date, weather, or task management agents",
     instruction="""You are a helpful coordinator assistant.
 
