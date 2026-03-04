@@ -12,6 +12,7 @@ load_dotenv()
 from src.routers.sessions import router as sessions_router
 from src.routers.tasks import router as tasks_router
 from src.routers.sdlc_router import router as sdlc_router
+from src.routers.sdlc_v2 import router as sdlc_v2_router
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -33,6 +34,7 @@ app.add_middleware(
 app.include_router(sessions_router)
 app.include_router(tasks_router)
 app.include_router(sdlc_router)
+app.include_router(sdlc_v2_router)
 
 
 @app.get("/health", tags=["Health"])
